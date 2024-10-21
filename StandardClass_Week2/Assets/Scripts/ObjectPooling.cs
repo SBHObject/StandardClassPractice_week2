@@ -6,27 +6,23 @@ using UnityEngine;
 public class ObjectPooling : MonoBehaviour
 {
     public GameObject prefab;
-    private List<GameObject> pools = new List<GameObject>();
+    //private List<GameObject> pools = new List<GameObject>();
     public int poolSize = 300;
+
+    public Dictionary<string, List<GameObject>> pools = new Dictionary<string, List<GameObject>>();
 
     private void Start()
     {
-        //poolSize 만큼 오브젝트 풀 추가
-        for(int i = 0; i < poolSize; i++)
-        {
-            GameObject poolObject = Instantiate(prefab);
-            pools.Add(poolObject);
-            poolObject.SetActive(false);
-        }
+        CreatePool("Monster", prefab);
     }
 
-    public GameObject Get()
+    public GameObject Get(string poolName)
     {
         GameObject returnObject;
         if (pools.Count > 0)
         {
-            returnObject = pools.First();
-            pools.Remove(returnObject);
+            returnObject = pools[poolName].First();
+            pools[poolName].Remove(returnObject);
         }
         else
         {
@@ -37,16 +33,28 @@ public class ObjectPooling : MonoBehaviour
         return returnObject;
     }
 
-    public void Release(GameObject obj)
+    public void Release(GameObject obj, string poolName)
     {
         obj.SetActive(false);
-        if (pools.Count < poolSize)
+        if (pools[poolName].Count < poolSize)
         {
-            pools.Add(obj);
+            pools[poolName].Add(obj);
         }
         else
         {
             Destroy(obj);
+        }
+    }
+
+    public void CreatePool(string poolName, GameObject _prefab)
+    {
+        pools.Add(poolName, new List<GameObject>());
+        //poolSize 만큼 오브젝트 풀 추가
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject poolObject = Instantiate(_prefab);
+            pools[poolName].Add(poolObject);
+            poolObject.SetActive(false);
         }
     }
 }

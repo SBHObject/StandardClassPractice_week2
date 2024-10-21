@@ -10,7 +10,7 @@ public class Shooter : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
-            GameObject shot = pool.Get();
+            GameObject shot = pool.Get("Monster");
             shot.transform.position = this.transform.position;
 
             StartCoroutine(ReleaseShot(shot));
@@ -21,6 +21,6 @@ public class Shooter : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        pool.Release(shot);
+        pool.Release(shot, "Monster");
     }
 }
