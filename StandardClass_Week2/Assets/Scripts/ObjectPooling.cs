@@ -22,8 +22,16 @@ public class ObjectPooling : MonoBehaviour
 
     public GameObject Get()
     {
-        GameObject returnObject = pools.First();
-        pools.Remove(returnObject);
+        GameObject returnObject;
+        if (pools.Count > 0)
+        {
+            returnObject = pools.First();
+            pools.Remove(returnObject);
+        }
+        else
+        {
+            returnObject = Instantiate(prefab);
+        }
 
         returnObject.SetActive(true);
         return returnObject;
@@ -32,6 +40,13 @@ public class ObjectPooling : MonoBehaviour
     public void Release(GameObject obj)
     {
         obj.SetActive(false);
-        pools.Add(obj);
+        if (pools.Count < poolSize)
+        {
+            pools.Add(obj);
+        }
+        else
+        {
+            Destroy(obj);
+        }
     }
 }
