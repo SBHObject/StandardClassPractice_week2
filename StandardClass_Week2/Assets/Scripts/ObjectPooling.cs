@@ -13,13 +13,13 @@ public class ObjectPooling : MonoBehaviour
 
     private void Start()
     {
-        CreatePool("Monster", prefab);
+        CreatePool("Shot", prefab);
     }
 
     public GameObject Get(string poolName)
     {
         GameObject returnObject;
-        if (pools.Count > 0)
+        if (pools[poolName].Count > 0)
         {
             returnObject = pools[poolName].First();
             pools[poolName].Remove(returnObject);
