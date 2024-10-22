@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
+    #region Singleton
     private static QuestManager instance;
 
     public static QuestManager Instance
@@ -33,6 +35,22 @@ public class QuestManager : MonoBehaviour
         else
         {
             Destroy(this);
+        }
+    }
+    #endregion
+
+    [SerializeField]
+    private List<QuestDataSO> quests = new List<QuestDataSO>();
+
+    public GameObject questListUiPrefab;
+    public Transform questUiParent;
+
+    private void Start()
+    {
+        foreach (QuestDataSO quest in quests)
+        {
+            GameObject questUI = Instantiate(questListUiPrefab, questUiParent);
+            questUI.GetComponent<QuestListUI>().SetQuestData(quest);
         }
     }
 }
