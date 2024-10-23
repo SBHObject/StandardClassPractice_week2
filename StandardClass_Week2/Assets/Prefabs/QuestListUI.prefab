@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questTitleText: {fileID: 6809532664420148914}
   requiredLevelText: {fileID: 5809830940042703173}
+  questObjectiveText: {fileID: 1536147344163123664}
 --- !u!1 &2420833742624698051
 GameObject:
   m_ObjectHideFlags: 0

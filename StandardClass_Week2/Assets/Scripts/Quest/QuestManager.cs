@@ -43,14 +43,23 @@ public class QuestManager : MonoBehaviour
     private List<QuestDataSO> quests = new List<QuestDataSO>();
 
     public GameObject questListUiPrefab;
+
     public Transform questUiParent;
 
     private void Start()
     {
         foreach (QuestDataSO quest in quests)
         {
-            GameObject questUI = Instantiate(questListUiPrefab, questUiParent);
-            questUI.GetComponent<QuestListUI>().SetQuestData(quest);
+            if(quest is MonsterQuestDataSO)
+            {
+                GameObject questUI = Instantiate(questListUiPrefab, questUiParent);
+                questUI.GetComponent<QuestListUI>().SetupQuestData((MonsterQuestDataSO)quest);
+            }
+            else
+            {
+                GameObject questUI = Instantiate(questListUiPrefab, questUiParent);
+                questUI.GetComponent<QuestListUI>().SetupQuestData((EncounterQuestDataSO)quest);
+            }
         }
     }
 }
